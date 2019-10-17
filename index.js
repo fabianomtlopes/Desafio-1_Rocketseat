@@ -5,8 +5,18 @@ const server = express();
 server.use(express.json());
 
 const projects = [];
+var count = 0;
 
-/* Midlleware para verificacao de existencia do objto, */
+// Midlleware pra contagem das requisicoes realizadas
+function counter(req, res, next){
+    count++;
+    console.log(`Número das requisições: ${count}`);
+    return next();
+}
+//chamada global - Funcao counter()
+server.use(counter);
+
+/* Midlleware para verificacao de existencia do objeto, */
 function checkProject(req, res, next){
   const { id } = req.params;
   const project = projects.find(pro => pro.id == id);
